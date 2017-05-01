@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:background="#22b600">
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </WebView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#22b600"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button_back_detailweb"
+                android:background="@drawable/back"
+                android:layout_width="45dp"
+                android:layout_height="45dp" />
+            <TextView
+                android:gravity="center"
+                android:text="기사"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:paddingRight="40dp"
+                android:id="@+id/textview_title_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textview_word1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="키워드1"/>
+        <TextView
+            android:id="@+id/textview_word2"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:textSize="25sp"
+            android:text="키워드1"/>
+        <TextView
+            android:id="@+id/textview_word3"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="키워드1"/>
+
+    </LinearLayout>
+</LinearLayout>
