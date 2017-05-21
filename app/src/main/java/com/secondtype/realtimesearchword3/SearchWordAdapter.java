@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,11 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
     ListView replyListView;
     ListViewAdapter replyListViewAdapter;
+
+    //////////////+ reply close button //////////////////
+    Button replyBack;
+    /////////////////////////////////////////////////////
+
     private View view;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -59,6 +65,8 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
         public TextView replyCount3;
 
         public Button moreReplyButton;
+
+
 
 
 
@@ -171,14 +179,27 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                 view = mMainActivity.getLayoutInflater().inflate(R.layout.reply_listview, null);
                 replyListView = (ListView)view.findViewById(R.id.listview_reply);
                 replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(position).getReplyArrayList());
+                ///////////////////+ reply back Button ////////////////////////
+                replyBack = (Button)view.findViewById(R.id.button_back_reply);
+                ///////////////////////////////////////////////////////////////
 
                 replyListView.setAdapter(replyListViewAdapter);
 
                 replyListViewAdapter.notifyDataSetChanged();
 
-                AlertDialog.Builder listViewDialog = new AlertDialog.Builder(mMainActivity);
+                final AlertDialog listViewDialog = new AlertDialog.Builder(mMainActivity).create();
                 listViewDialog.setView(view);
                 listViewDialog.show();
+
+                ///////// + reply back button ////////////////////////////
+                replyBack.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        listViewDialog.dismiss();
+                    }
+                });
+                ///////////////////////////////////////////////////////////
+
 
             }
         });
@@ -188,14 +209,26 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                 view = mMainActivity.getLayoutInflater().inflate(R.layout.reply_listview, null);
                 replyListView = (ListView)view.findViewById(R.id.listview_reply);
                 replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(position).getReplyArrayList());
+                ///////////////////+ reply back Button ////////////////////////
+                replyBack = (Button)view.findViewById(R.id.button_back_reply);
+                ///////////////////////////////////////////////////////////////
 
                 replyListView.setAdapter(replyListViewAdapter);
 
                 replyListViewAdapter.notifyDataSetChanged();
 
-                AlertDialog.Builder listViewDialog = new AlertDialog.Builder(mMainActivity);
+                final AlertDialog listViewDialog = new AlertDialog.Builder(mMainActivity).create();
                 listViewDialog.setView(view);
                 listViewDialog.show();
+
+                ///////// + reply back button ////////////////////////////
+                replyBack.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        listViewDialog.dismiss();
+                    }
+                });
+                ///////////////////////////////////////////////////////////
 
             }
         });
