@@ -31,7 +31,7 @@
             android:layout_height="match_parent" />
         <Button
             android:id="@+id/button_refresh"
-            android:background="@drawable/refresh"
+            android:background="@drawable/refresh_white"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginRight="10dp"
@@ -75,116 +75,161 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:background="#FFFFFF"
+            android:layout_margin="5dp"
             android:visibility="gone">
             <LinearLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#FFFFFF"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/textview_listall_text1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
+                    android:background="#00000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text6"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text7"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text8"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text9"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text10"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
 
 
             </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#EAEAEA"
+                />
             <LinearLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
@@ -196,98 +241,133 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text12"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text13"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text14"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text15"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text16"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text17"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text18"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text19"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F6F6F6"
+                    />
                 <TextView
                     android:id="@+id/textview_listall_text20"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:text="1. test text"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:textSize="17dp"
                     android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="1"/>

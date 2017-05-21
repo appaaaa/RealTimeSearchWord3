@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 
 /**
  * Created by Moon on 2017-03-26.
@@ -27,80 +28,69 @@ import java.net.URLConnection;
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     private static final String TAG = "FirebaseMsgService";
 
-    Bitmap bigPicture;
-    String imgUrl = null;
-
-    // [START receive_message]
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(RemoteMessage message)
+    {
+        String from = message.getFrom();
+        Map<String, String> data = message.getData();
+        String title = data.get("title");
+        String msg = data.get("message");
+        String url_image = data.get("url_image");
 
-        sendPushNotification(remoteMessage.getData().get("message"));
-        imgUrl = remoteMessage.getData().get("url");
-        Log.v("message all " , remoteMessage.getData().toString());
-
-        if(imgUrl == null) {
-            Log.v("message test", "NULL");
-        }else{
-            Log.v("message test", imgUrl);
-        }
-        try {
-            JSONObject obj = new JSONObject(remoteMessage.toString());
-            imgUrl = obj.getString("url");
-            if(imgUrl == null) {
-                Log.v("message test 2", "NULL");
-            }else{
-                Log.v("message test 2", imgUrl);
-            }
-        }catch(Exception e){
-
-        }
-
+        // 전달 받은 정보로 뭔가를 하면 된다.
+        //토스트 띄우기
+        Log.d("Title", "title = " + title);
+        Log.d("Message", "message = " + msg);
+        sendNotification(title, msg, url_image);
+//        MainActivity.printToast("title = " + title + "\nmsg = " + msg);
     }
-
-    private void sendPushNotification(String message) {
-        System.out.println("received message : " + message);
+    private void sendNotification(String title, String body, String url_image) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        if(imgUrl == null) {
-            Log.v("message test 3", "NULL");
-        }else{
-            Log.v("message test 3", imgUrl);
-        }
 
-        if(imgUrl != null){
-            try{
-                URL url = new URL(imgUrl);
-                URLConnection conn = url.openConnection();
-                conn.connect();
 
-                BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-                bigPicture = BitmapFactory.decodeStream(bis);
-
-            }catch(Exception e){
-
-            }
+        //이미지 온라인 링크를 가져와 비트맵으로 바꾼다.
+        Bitmap bigPicture = null;
+        try {
+            URL url = new URL(url_image);
+            bigPicture = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.refresh).setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher) )
-                .setContentTitle("Push Title ")
-                .setContentText("두 손가락으로 아래로 드래그하세요.")
+        NotificationCompat.Builder notificationBuilder;
+
+        notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri).setLights(000000255,500,2000)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bigPicture))
+                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if(bigPicture != null) {
 
-        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
-        wakelock.acquire(5000);
+//                  //BigTextStyle
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .setBigContentTitle("FCM Push Big Text")
+//                        .bigText(messageBody))
+
+            //이미지를 보내는 스타일 사용하기
+            notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle()
+                    .bigPicture(bigPicture)
+                    .setBigContentTitle(title)
+                    .setSummaryText(body));
+
+        }
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
 }
