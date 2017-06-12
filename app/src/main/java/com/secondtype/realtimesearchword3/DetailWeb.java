@@ -42,6 +42,10 @@ public class DetailWeb extends AppCompatActivity {
     Animation animation;
 
 
+    ///////////// + check case main or list all //////////
+    Boolean checkCase = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,10 +157,17 @@ public class DetailWeb extends AppCompatActivity {
         }
 
         if(mIntent.getStringExtra("newsURL") != null) {
-            //mURL = mIntent.getStringExtra("newsURL");
-            mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + mData.get(currentNum).getWord() + "&sm=top_lve&ie=utf8";
 
-            Log.v("URL ", mURL);
+            /// + check Case //////////////////
+            checkCase = mIntent.getBooleanExtra("allList", false);
+            if(checkCase){
+                mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + mData.get(currentNum).getWord() + "&sm=top_lve&ie=utf8";
+            }else {
+                mURL = mIntent.getStringExtra("newsURL");
+                //mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + mData.get(currentNum).getWord() + "&sm=top_lve&ie=utf8";
+            }
+            //////////////////////////////////
+            Log.v("URL ", checkCase + mURL);
 
             openWeb(mURL);
 

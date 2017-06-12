@@ -33,7 +33,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     {
         String from = message.getFrom();
         Map<String, String> data = message.getData();
-        String title = data.get("title");
+//        String title = data.get("title");
+        String title = "지금이슈";
         String msg = data.get("message");
         String url_image = data.get("url_image");
 

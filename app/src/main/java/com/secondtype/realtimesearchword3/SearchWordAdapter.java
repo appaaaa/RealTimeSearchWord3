@@ -21,10 +21,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import static com.secondtype.realtimesearchword3.MainActivity.switchs;
 
 /**
  * Created by appaaaa on 2017-02-17.
@@ -158,13 +161,18 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             @Override
             public void onClick(View view) {
 
-                if(s != null) {
+                if(s != null && switchs) {
                     Intent intent = new Intent(mMainActivity, DetailWeb.class);
                     intent.putExtra("newsURL", mDataset.get(position).getNewsURL());
                     intent.putExtra("mDataset", mDataset);
+                    intent.putExtra("allList", false);
                     intent.putExtra("currentNumber", position);
                     mMainActivity.startActivity(intent);
                     mMainActivity.overridePendingTransition(R.anim.rightin, R.anim.notmove);
+                }
+                else if(switchs == false){
+                    Toast toast = Toast.makeText(mMainActivity, "데이터로딩중.. 데이터 로딩이 전부 끝나면 이동가능합니다.", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });

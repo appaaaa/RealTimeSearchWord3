@@ -1,5 +1,6 @@
 package com.secondtype.realtimesearchword3;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -28,12 +29,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
+
 public class MainActivity extends AppCompatActivity {
     //test git
     // test 2 git
     //branch change
     Button refreshBtn;
 
+    public static Boolean switchs = false;
 
 
     private RecyclerView mRecyclerView;
@@ -1240,6 +1243,7 @@ public class MainActivity extends AppCompatActivity {
             //        mProgressBar.setVisibility(View.GONE);
 
             ListAllBinding();
+            switchs = true;
         //    contentLinearlayout.setClickable(true);
         }
     }
@@ -1295,6 +1299,19 @@ public class MainActivity extends AppCompatActivity {
         listAllText18.setText("18. " + myDataset.get(17).getWord());
         listAllText19.setText("19. " + myDataset.get(18).getWord());
         listAllText20.setText("20. " + myDataset.get(19).getWord());
+
+        listAllText1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(0).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 0);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
     }
 
 }
