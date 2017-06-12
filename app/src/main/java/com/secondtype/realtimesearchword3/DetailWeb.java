@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
@@ -44,6 +45,12 @@ public class DetailWeb extends AppCompatActivity {
 
     ///////////// + check case main or list all //////////
     Boolean checkCase = false;
+
+
+    ////// + button share edit : title button
+    Button shareBtn;
+    Button editBtn;
+    /////////////////////////////////////////
 
 
 
@@ -95,6 +102,24 @@ public class DetailWeb extends AppCompatActivity {
             }
         });
 
+        ////// + button share, edit : title button
+        shareBtn = (Button)findViewById(R.id.button_share);
+        shareBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "조금만 기다리세요! 곧 공유하게 해드릴게요!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+        editBtn = (Button)findViewById(R.id.button_edit);
+        editBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "사실 이건 아직 별로 쓸데가 없어서... 원하는게 있으면 연락주세요! appaaaa@naver.com", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+        ////////////////////////////////////////////
         mData = new ArrayList<>();
 
 

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -89,10 +90,23 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> listAll;
 
+    ////// + button naver, daum 추가
+    Button naverBtn;
+    Button daumBtn;
+    ////////////////////////////////
+
+    ////// + searchword 만 따로 받아오기. 리스트 표시용
+    ArrayList<String> wordList;
+    ////////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ////// + switch 초기화
+        switchs = false;
+        //////////////////////
 
         FirebaseMessaging.getInstance().subscribeToTopic("news");
         FirebaseInstanceId.getInstance().getToken();
@@ -179,6 +193,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ////// + button naver, daum 추가
+        naverBtn = (Button)findViewById(R.id.button_naver);
+        daumBtn = (Button)findViewById(R.id.button_daum);
+        daumBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "열심히 카페인을 들이부으며 준비중입니다.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+        /////////////////////////////////////////////
+
+        ////// + searchword만 따로 받아오기
+        wordList = new ArrayList<>();
+        ///////////////////////////////////
+
         ////////// + 데이터 수신 중 막기 //////////
       //  contentLinearlayout = (LinearLayout)findViewById(R.id.linearlayout_contents);
       //  contentLinearlayout.setClickable(false);
@@ -220,12 +250,20 @@ public class MainActivity extends AppCompatActivity {
 //                Elements mElements = mDocument.select("ol#realrank > li > a");
 
                 Elements mElements = mDocument.select("div.select_date ul li");
+
+                ////// + list만 빨리 먼저 받아오기
+                wordList.clear();
+                for(int i = 0; i < 20; i++){
+                    wordList.add(mElements.get(i).select("span.title").text());
+                }
+                ListAllBinding();
+                //////////////////////////////////
                 for(int i = 0; i < 3; i++) {
                     SearchWord searchWord = new SearchWord();
                     //Log.v("title test : ", elements.get(i).select("span.ell").text());
                     searchWord.setNumber(Integer.toString(i + 1));
 //                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
+                    searchWord.setWord(mElements.get(i).select("span.title").text());
 //                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
 //                        searchWord.setArrow("상승");
 //                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
@@ -1242,7 +1280,7 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
             //        mProgressBar.setVisibility(View.GONE);
 
-            ListAllBinding();
+
             switchs = true;
         //    contentLinearlayout.setClickable(true);
         }
@@ -1279,26 +1317,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ListAllBinding(){
-        listAllText1.setText("1. " + myDataset.get(0).getWord());
-        listAllText2.setText("2. " + myDataset.get(1).getWord());
-        listAllText3.setText("3. " + myDataset.get(2).getWord());
-        listAllText4.setText("4. " + myDataset.get(3).getWord());
-        listAllText5.setText("5. " + myDataset.get(4).getWord());
-        listAllText6.setText("6. " + myDataset.get(5).getWord());
-        listAllText7.setText("7. " + myDataset.get(6).getWord());
-        listAllText8.setText("8. " + myDataset.get(7).getWord());
-        listAllText9.setText("9. " + myDataset.get(8).getWord());
-        listAllText10.setText("10. " + myDataset.get(9).getWord());
-        listAllText11.setText("11. " + myDataset.get(10).getWord());
-        listAllText12.setText("12. " + myDataset.get(11).getWord());
-        listAllText13.setText("13. " + myDataset.get(12).getWord());
-        listAllText14.setText("14. " + myDataset.get(13).getWord());
-        listAllText15.setText("15. " + myDataset.get(14).getWord());
-        listAllText16.setText("16. " + myDataset.get(15).getWord());
-        listAllText17.setText("17. " + myDataset.get(16).getWord());
-        listAllText18.setText("18. " + myDataset.get(17).getWord());
-        listAllText19.setText("19. " + myDataset.get(18).getWord());
-        listAllText20.setText("20. " + myDataset.get(19).getWord());
+
+        listAllText1.setText("1. " + wordList.get(0));
+        listAllText2.setText("2. " + wordList.get(1));
+        listAllText3.setText("3. " + wordList.get(2));
+        listAllText4.setText("4. " + wordList.get(3));
+        listAllText5.setText("5. " + wordList.get(4));
+        listAllText6.setText("6. " + wordList.get(5));
+        listAllText7.setText("7. " + wordList.get(6));
+        listAllText8.setText("8. " + wordList.get(7));
+        listAllText9.setText("9. " + wordList.get(8));
+        listAllText10.setText("10. " + wordList.get(9));
+        listAllText11.setText("11. " + wordList.get(10));
+        listAllText12.setText("12. " + wordList.get(11));
+        listAllText13.setText("13. " + wordList.get(12));
+        listAllText14.setText("14. " + wordList.get(13));
+        listAllText15.setText("15. " + wordList.get(14));
+        listAllText16.setText("16. " + wordList.get(15));
+        listAllText17.setText("17. " + wordList.get(16));
+        listAllText18.setText("18. " + wordList.get(17));
+        listAllText19.setText("19. " + wordList.get(18));
+        listAllText20.setText("20. " + wordList.get(19));
 
         listAllText1.setOnClickListener(new View.OnClickListener(){
             @Override
