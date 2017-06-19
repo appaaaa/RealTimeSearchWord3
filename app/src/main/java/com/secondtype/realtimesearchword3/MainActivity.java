@@ -295,6 +295,10 @@ public class MainActivity extends AppCompatActivity {
                             String title3 = "BASIC";
                             String title4 = "BASIC";
                             title = newsElement.select("dl dt a").text();
+
+
+
+                            //Log.v("title2", title2);
                             /*
                             title2 = newsElement2.first().select("dl dt a").text();
                             title2 = newsElement2.next().get(1).select("dl dt a").text();
