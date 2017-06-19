@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     //////////// + tab 대신 임시 사용 //////////////
-    private Button firstButton;
-    private Button secondButton;
+    private ImageButton firstButton;
+    private ImageButton secondButton;
     /////////////////////////////////////////////
 
     ////////////////// + list all ////////////////
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         titleTime = (TextView)findViewById(R.id.textview_title);
 
         ///////////////tab 대신 임시사용 ///////////////////
-        firstButton = (Button)findViewById(R.id.button_first);
+        firstButton = (ImageButton) findViewById(R.id.button_first);
         firstButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        secondButton = (Button)findViewById(R.id.button_second);
+        secondButton = (ImageButton) findViewById(R.id.button_second);
         secondButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -281,10 +282,28 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
+                        Log.v("newssection","test");
+                        Log.v("newssection",newsElement2.toString());
+                        Log.v("newssection",newsElement2.text());
+                        Log.v("newssection",Integer.toString(newsElement2.size()));
+
 
                         if (newsElement != null) {
                             String title = "BASIC";
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
                             title = newsElement.select("dl dt a").text();
+                            /*
+                            title2 = newsElement2.first().select("dl dt a").text();
+                            title2 = newsElement2.next().get(1).select("dl dt a").text();
+                            title3 = newsElement2.next().get(2).select("dl dt a").text();
+                            title4 = newsElement2.next().select("dl dt a").text();
+
+                            Log.v("title2", "title2" + newsElement2.text());
+                            Log.v("title2","title3" +  title3);
+                            Log.v("title2","title4" +  title4);*/
 
                             Elements imageElements = newsElement.select("div.thumb a img");
                             String ImageUrl = imageElements.attr("src");
