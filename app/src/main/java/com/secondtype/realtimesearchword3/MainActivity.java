@@ -295,19 +295,14 @@ public class MainActivity extends AppCompatActivity {
                             String title3 = "BASIC";
                             String title4 = "BASIC";
                             title = newsElement.select("dl dt a").text();
+                            Log.v("titles", newsElement2.select("dl dt a").get(0).text());
+                            Log.v("titles", newsElement2.select("dl dt a").get(1).text());
+                            Log.v("titles", newsElement2.select("dl dt a").get(2).text());
+                            Log.v("titles", newsElement2.select("dl dt a").get(3).text());
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
-
-
-                            //Log.v("title2", title2);
-                            /*
-                            title2 = newsElement2.first().select("dl dt a").text();
-                            title2 = newsElement2.next().get(1).select("dl dt a").text();
-                            title3 = newsElement2.next().get(2).select("dl dt a").text();
-                            title4 = newsElement2.next().select("dl dt a").text();
-
-                            Log.v("title2", "title2" + newsElement2.text());
-                            Log.v("title2","title3" +  title3);
-                            Log.v("title2","title4" +  title4);*/
 
                             Elements imageElements = newsElement.select("div.thumb a img");
                             String ImageUrl = imageElements.attr("src");
@@ -315,8 +310,14 @@ public class MainActivity extends AppCompatActivity {
                             Elements urlElements = newsElement.select("div.thumb a");
 
                             String newsURL = urlElements.attr("href");
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
-
+                            Log.v("newstest", newsElement2.select("div.thumb a").attr("href").toString());
+                            Log.v("newstest", newsElement2.select("div.thumb a").get(1).attr("href").toString());
+                            Log.v("newstest", newsElement2.select("div.thumb a").get(2).attr("href").toString());
+                            Log.v("newstest", newsElement2.select("div.thumb a").get(3).attr("href").toString());
 
                             if(title.equals("BASIC")) {
 
@@ -324,7 +325,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                             else{
                                 searchWord.setNewsTitle(title);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                                 searchWord.setNewsURL(newsURL);
+
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -458,9 +466,10 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
+
                             title = newsElement.select("dl dt a").text();
 
                             Elements imageElements = newsElement.select("div.thumb a img");
@@ -470,15 +479,31 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
                                 searchWord.setNewsTitle("관련 뉴스 X");
+
                             }
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -606,7 +631,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
                             title = newsElement.select("dl dt a").text();
@@ -618,7 +643,16 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
@@ -627,6 +661,12 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -754,7 +794,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
                             title = newsElement.select("dl dt a").text();
@@ -766,7 +806,16 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
@@ -775,6 +824,12 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -902,7 +957,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
                             title = newsElement.select("dl dt a").text();
@@ -914,7 +969,16 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
@@ -923,6 +987,12 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -1049,7 +1119,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
                             title = newsElement.select("dl dt a").text();
@@ -1061,7 +1131,16 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
@@ -1070,6 +1149,12 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
@@ -1196,7 +1281,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Document mDocument2 = Jsoup.connect(url).get();
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
+                        Elements newsElement2 = mDocument2.select("div.news ul li");
                         if (newsElement != null) {
                             String title = "BASIC";
                             title = newsElement.select("dl dt a").text();
@@ -1208,7 +1293,16 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
+                            String title2 = "BASIC";
+                            String title3 = "BASIC";
+                            String title4 = "BASIC";
+                            title2 = newsElement2.select("dl dt a").get(1).text();
+                            title3 = newsElement2.select("dl dt a").get(2).text();
+                            title4 = newsElement2.select("dl dt a").get(3).text();
 
+                            String newsURL2 = newsElement2.select("div.thumb a").get(1).attr("href").toString();
+                            String newsURL3 = newsElement2.select("div.thumb a").get(2).attr("href").toString();
+                            String newsURL4 = newsElement2.select("div.thumb a").get(3).attr("href").toString();
 
                             if(title.equals("BASIC")) {
 
@@ -1217,6 +1311,12 @@ public class MainActivity extends AppCompatActivity {
                             else{
                                 searchWord.setNewsTitle(title);
                                 searchWord.setNewsURL(newsURL);
+                                searchWord.setNewsTitle2(title2);
+                                searchWord.setNewsTitle3(title3);
+                                searchWord.setNewsTitle4(title4);
+                                searchWord.setNewsURL2(newsURL2);
+                                searchWord.setNewsURL3(newsURL3);
+                                searchWord.setNewsURL4(newsURL4);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
                             //Log.v("newsTitle ", newsTitle.text());
