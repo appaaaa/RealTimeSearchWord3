@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class DetailWeb extends AppCompatActivity {
-
+    // change
     WebView mWebView;
     WebSettings mWebSettings;
 
