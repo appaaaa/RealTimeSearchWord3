@@ -284,8 +284,8 @@ public class MainActivity extends AppCompatActivity {
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
                         Elements newsElement2 = mDocument2.select("div.news ul li");
                         Log.v("newssection","test");
-                        Log.v("newssection",newsElement2.toString());
-                        Log.v("newssection",newsElement2.text());
+                        //Log.v("newssection",newsElement2.toString());
+                        Log.v("newssection",newsElement2.select("dl dt a").get(2).text());
                         Log.v("newssection",Integer.toString(newsElement2.size()));
 
 
