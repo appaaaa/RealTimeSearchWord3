@@ -35,6 +35,7 @@ import static com.secondtype.realtimesearchword3.MainActivity.switchs;
 
 public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.ViewHolder>{
     private ArrayList<SearchWord> mDataset;
+    int pos;
     Context mContext;
     MainActivity mMainActivity;
 
@@ -83,7 +84,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             newsTitleTextView = (TextView)view.findViewById(R.id.textview_newstitle);
             newsImageImageView = (ImageView)view.findViewById(R.id.imageview_news);
 //            newRankingTextView = (TextView)view.findViewById(R.id.textview_new);
-            mCardView = (CardView)view.findViewById(R.id.cardview);
+            mCardView = (CardView)view.findViewById(R.id.cardview2);
             replyLinearLayout = (LinearLayout) view.findViewById(R.id.linearlayout_reply);
             contentsLinearLayout = (LinearLayout)view.findViewById(R.id.linearlayout_contents);
             replyName = (TextView)view.findViewById(R.id.textview_reply_name);
@@ -108,7 +109,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view2, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
 
@@ -117,7 +118,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final int pos = position;
+        pos = position;
         holder.numberTextView.setText(mDataset.get(position).getNumber());
         holder.wordTextView.setText(mDataset.get(position).getWord());
 
@@ -177,16 +178,12 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             }
         });
 
-
-
-
-
         holder.replyLinearLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 view = mMainActivity.getLayoutInflater().inflate(R.layout.reply_listview, null);
                 replyListView = (ListView)view.findViewById(R.id.listview_reply);
-                replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(position).getReplyArrayList());
+                replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(pos).getReplyArrayList());
                 ///////////////////+ reply back Button ////////////////////////
                 replyBack = (Button)view.findViewById(R.id.button_back_reply);
                 ///////////////////////////////////////////////////////////////
@@ -216,7 +213,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             public void onClick(View view) {
                 view = mMainActivity.getLayoutInflater().inflate(R.layout.reply_listview, null);
                 replyListView = (ListView)view.findViewById(R.id.listview_reply);
-                replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(position).getReplyArrayList());
+                replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(pos).getReplyArrayList());
                 ///////////////////+ reply back Button ////////////////////////
                 replyBack = (Button)view.findViewById(R.id.button_back_reply);
                 ///////////////////////////////////////////////////////////////

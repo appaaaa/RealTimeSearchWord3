@@ -171,26 +171,18 @@ public class MainActivity extends AppCompatActivity {
 
         myDataset = new ArrayList<>();
         mAdapter = new SearchWordAdapter(getApplication(),myDataset, MainActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
 
 
         refreshBtn = (Button)findViewById(R.id.button_refresh);
         refreshBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                myDataset.clear();
+                mRecyclerView.setAdapter(mAdapter);
                 GetDataParser mParser = new GetDataParser(); // Asynctask는 1회용이라서 매번 다시 생성해줘야함
                 mParser.execute();
-                GetDataParser2 firstParser2 = new GetDataParser2();
-                firstParser2.execute( );
-                GetDataParser3 firstParser3 = new GetDataParser3();
-                firstParser3.execute( );
-                GetDataParser4 firstParser4 = new GetDataParser4();
-                firstParser4.execute( );
-                GetDataParser5 firstParser5 = new GetDataParser5();
-                firstParser5.execute( );
-                GetDataParser6 firstParser6 = new GetDataParser6();
-                firstParser6.execute( );
-                GetDataParser7 firstParser7 = new GetDataParser7();
-                firstParser7.execute( );
+
             }
         });
 
@@ -214,32 +206,16 @@ public class MainActivity extends AppCompatActivity {
       //  contentLinearlayout = (LinearLayout)findViewById(R.id.linearlayout_contents);
       //  contentLinearlayout.setClickable(false);
 
+        myDataset.clear();
         GetDataParser firstParser = new GetDataParser();
         firstParser.execute( );
-        GetDataParser2 firstParser2 = new GetDataParser2();
-        firstParser2.execute( );
-        GetDataParser3 firstParser3 = new GetDataParser3();
-        firstParser3.execute( );
-        GetDataParser4 firstParser4 = new GetDataParser4();
-        firstParser4.execute( );
-        GetDataParser5 firstParser5 = new GetDataParser5();
-        firstParser5.execute( );
-        GetDataParser6 firstParser6 = new GetDataParser6();
-        firstParser6.execute( );
-        GetDataParser7 firstParser7 = new GetDataParser7();
-        firstParser7.execute( );
-
-
     }
 
 
-    public class GetDataParser extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
+    public class GetDataParser extends AsyncTask<Void, SearchWord, ArrayList<SearchWord>> {
 
         String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-
-
+        Integer position = 0;
 
         @Override
         protected ArrayList<SearchWord> doInBackground(Void... voids) {
@@ -259,23 +235,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 ListAllBinding();
                 //////////////////////////////////
-                for(int i = 0; i < 3; i++) {
+                for(int i = 0; i < 20; i++) {
                     SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
                     searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
                     searchWord.setWord(mElements.get(i).select("span.title").text());
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
 
                     String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
 
@@ -284,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
                         Elements newsElement = mDocument2.select("li#sp_nws_all1");
                         Elements newsElement2 = mDocument2.select("div.news ul li");
                         Log.v("newssection","test");
-                        //Log.v("newssection",newsElement2.toString());
                         Log.v("newssection",newsElement2.select("dl dt a").get(2).text());
                         Log.v("newssection",Integer.toString(newsElement2.size()));
 
@@ -295,8 +257,6 @@ public class MainActivity extends AppCompatActivity {
                             String title3 = "BASIC";
                             String title4 = "BASIC";
                             title = newsElement.select("dl dt a").text();
-
-
 
                             //Log.v("title2", title2);
                             /*
@@ -316,10 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
                             String newsURL = urlElements.attr("href");
 
-
-
                             if(title.equals("BASIC")) {
-
                                 searchWord.setNewsTitle("관련 뉴스 X");
                             }
                             else{
@@ -327,8 +284,6 @@ public class MainActivity extends AppCompatActivity {
                                 searchWord.setNewsURL(newsURL);
                             }
                             searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -340,13 +295,9 @@ public class MainActivity extends AppCompatActivity {
                         Document mDocument3 = Jsoup.connect(replysUrl).get();
                         Elements replyElements = mDocument3.select("ul.type01 li");
 
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
                         for(int j = 0; j < replyElements.size(); j++){
                             Reply mReply = new Reply();
-
                             mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
 
                             if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
                                 mReply.text = replyElements.get(j).select(".cmmt").text();
@@ -354,993 +305,60 @@ public class MainActivity extends AppCompatActivity {
                                 mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
                                 mReply.count2 = replyElements.get(j).select(".sub_interest").text();
                                 mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
                             }
-
                             else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
                                 mReply.text = replyElements.get(j).select(".txt_link").text();
                                 mReply.time = replyElements.get(j).select(".sub_time").text();
                                 mReply.count1 = replyElements.get(j).select(".sub_reply").text();
                                 mReply.count2 = replyElements.get(j).select(".sub_like").text();
                                 mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
                             }
-
                             searchWord.getReplyArrayList().add(mReply);
-
                         }
-
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-
-                    tempList.add(searchWord);
+                    publishProgress(searchWord);
                 }
-
             }catch (Exception e){
                 e.printStackTrace();
             }
-
             return tempList;
         }
 
         @Override
         protected void onPreExecute() {
-
-            loadingLayout.setVisibility(View.VISIBLE);
-
             currentTimer();
-
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            myDataset.clear();
-            myDataset.addAll(tempList);
-
-            mRecyclerView.setAdapter(mAdapter);
-
-            loadingLayout.setVisibility(View.GONE);
-
-
-        }
-    }
-
-    public class GetDataParser2 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-
-
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 3; i < 6; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-         //   mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
+        protected void onProgressUpdate(SearchWord... values) {
+            myDataset.add(values[0]);
+            mAdapter.notifyItemInserted(position++);
         }
 
         @Override
         protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-
-      //      mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    public class GetDataParser3 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 6; i < 9; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-       //     mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-
-    //        mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    public class GetDataParser4 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 9; i < 12; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            //     mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-
-            //        mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    public class GetDataParser5 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 12; i < 15; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            //     mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            //        mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    public class GetDataParser6 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 15; i < 18; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            //     mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            //        mProgressBar.setVisibility(View.GONE);
-        }
-    }
-
-    public class GetDataParser7 extends AsyncTask<Void, Void, ArrayList<SearchWord>> {
-
-
-        String url = "http://datalab.naver.com/keyword/realtimeList.naver?where=main";
-
-        @Override
-        protected ArrayList<SearchWord> doInBackground(Void... voids) {
-
-            ArrayList<SearchWord> tempList = new ArrayList<SearchWord>();
-
-            try{
-                Document mDocument = Jsoup.connect(url).get();
-//                Elements mElements = mDocument.select("ol#realrank > li > a");
-
-                Elements mElements = mDocument.select("div.select_date ul li");
-                for(int i = 18; i < 20; i++) {
-                    SearchWord searchWord = new SearchWord();
-                    //Log.v("title test : ", elements.get(i).select("span.ell").text());
-                    searchWord.setNumber(Integer.toString(i + 1));
-//                    searchWord.setWord(mElements.get(i).select("span.ell").text());
-                    searchWord.setWord((mElements.get(i).select("span.title").text()));
-//                    if (mElements.get(i).select("span.tx").text().equals("상승")) {
-//                        searchWord.setArrow("상승");
-//                        searchWord.setRanking(mElements.get(i).select("span.rk").text());
-//
-//                    } else {
-//                        searchWord.setArrow("NEW");
-//                    }
-//
-//                    Log.v("test arrow : ", mElements.get(i).select("span.tx").text());
-
-
-
-                    String url = "https://search.naver.com/search.naver?where=nexearch&query=" + searchWord.getWord() + "&sm=top_lve&ie=utf8";
-
-                    try {
-                        Document mDocument2 = Jsoup.connect(url).get();
-                        Elements newsElement = mDocument2.select("li#sp_nws_all1");
-
-                        if (newsElement != null) {
-                            String title = "BASIC";
-                            title = newsElement.select("dl dt a").text();
-
-                            Elements imageElements = newsElement.select("div.thumb a img");
-                            String ImageUrl = imageElements.attr("src");
-
-                            Elements urlElements = newsElement.select("div.thumb a");
-
-                            String newsURL = urlElements.attr("href");
-
-
-
-                            if(title.equals("BASIC")) {
-
-                                searchWord.setNewsTitle("관련 뉴스 X");
-                            }
-                            else{
-                                searchWord.setNewsTitle(title);
-                                searchWord.setNewsURL(newsURL);
-                            }
-                            searchWord.setNewsImage(ImageUrl.substring(0, ImageUrl.length()-28));
-                            //Log.v("newsTitle ", newsTitle.text());
-
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    String replysUrl = "https://search.naver.com/search.naver?where=realtime&query=" + searchWord.getWord() + "&best=1";
-
-                    try{
-                        Document mDocument3 = Jsoup.connect(replysUrl).get();
-                        Elements replyElements = mDocument3.select("ul.type01 li");
-
-                        Log.v("replay test : count", Integer.toString(replyElements.size()));
-
-                        for(int j = 0; j < replyElements.size(); j++){
-                            Reply mReply = new Reply();
-
-                            mReply.name = replyElements.get(j).select(".user_name").text();
-                            Log.v("testreply name", mReply.name + " " + j);
-
-                            if(!replyElements.get(j).select(".sub_retweet").text().isEmpty()){
-                                mReply.text = replyElements.get(j).select(".cmmt").text();
-                                mReply.time = replyElements.get(j).select(".time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_retweet").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_interest").text();
-                                mReply.count3 = "  ";
-                                Log.v("testreply sub_ret",replyElements.get(j).select(".sub_retweet").text() + " " + j );
-                                Log.v("testreply twitt",replyElements.get(j).select(".time").text() + " " + j);
-                                Log.v("testreply count1",replyElements.get(j).select(".sub_retweet").text() + " " + j);
-                                Log.v("testreply count2",replyElements.get(j).select(".sub_interest").text() + " " + j);
-
-
-                            }
-
-                            else if(!replyElements.get(j).select(".sub_reply").text().isEmpty()){
-                                Log.v("test reply2 start", "reply2 start");
-                                mReply.text = replyElements.get(j).select(".txt_link").text();
-                                mReply.time = replyElements.get(j).select(".sub_time").text();
-                                mReply.count1 = replyElements.get(j).select(".sub_reply").text();
-                                mReply.count2 = replyElements.get(j).select(".sub_like").text();
-                                mReply.count3 = replyElements.get(j).select(".sub_dis").text();
-                                Log.v("testreply2 text", replyElements.get(j).select(".txt_link").text());
-                                Log.v("testreply2 time", mReply.time);
-                                Log.v("testreply2 count1", mReply.count1);
-                                Log.v("testreply2 count2", mReply.count2);
-                                Log.v("testreply2 count3", mReply.count3);
-                            }
-
-                            searchWord.getReplyArrayList().add(mReply);
-
-                        }
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                    tempList.add(searchWord);
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return tempList;
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            //     mProgressBar.setVisibility(View.VISIBLE);
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchWord> tempList) {
-            //myDataset.clear();
-            myDataset.addAll(tempList);
-
-            // mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            //        mProgressBar.setVisibility(View.GONE);
-
-
-            switchs = true;
-        //    contentLinearlayout.setClickable(true);
+            switchs = true; //데이터를 다 가져왔으면 클릭 가능
         }
     }
 
     public void currentTimer(){
-        /////////// + 현재시간 표시 //////////////
-
-//        Handler mHandler = new Handler();
-//        mHandler.postDelayed(new Runnable(){
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 1000);
-
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
         String formateDate = sdfNow.format(date);
         loadingTime.setText(formateDate);
         titleTime.setText(formateDate+" 지금이슈");
-
-
-        /////////////////////////////////////////
     }
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
-
-
     }
 
     public void ListAllBinding(){
-
         listAllText1.setText("1. " + wordList.get(0));
         listAllText2.setText("2. " + wordList.get(1));
         listAllText3.setText("3. " + wordList.get(2));
@@ -1374,6 +392,233 @@ public class MainActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.rightin, R.anim.notmove);
             }
         });
+        listAllText2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(1).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 1);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(2).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 2);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(3).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 3);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText5.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(4).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 4);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText6.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(5).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 5);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText7.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(6).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 6);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText8.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(7).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 7);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText9.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(8).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 8);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText10.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(9).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 9);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText11.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(10).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 10);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText12.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(11).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 11);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText13.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(12).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 12);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText14.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(13).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 13);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText15.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(14).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 14);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText16.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(15).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 15);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText17.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(16).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 16);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText18.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(17).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 17);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText19.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(18).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 18);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
+        listAllText20.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailWeb.class);
+                intent.putExtra("newsURL", myDataset.get(19).getNewsURL());
+                intent.putExtra("mDataset", myDataset);
+                intent.putExtra("allList", true);
+                intent.putExtra("currentNumber", 19);
+                startActivity(intent);
+                overridePendingTransition(R.anim.rightin, R.anim.notmove);
+            }
+        });
     }
-
 }
