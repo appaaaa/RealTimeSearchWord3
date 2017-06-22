@@ -51,7 +51,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView numberTextView;
         public TextView wordTextView;
-//        public ImageView arrowImageView;
+        //        public ImageView arrowImageView;
 //        public TextView rankingTextView;
         public TextView newsTitleTextView;
         public ImageView newsImageImageView;
@@ -167,6 +167,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                     intent.putExtra("newsURL", mDataset.get(position).getNewsURL());
                     intent.putExtra("mDataset", mDataset);
                     intent.putExtra("allList", false);
+                    intent.putExtra("currentNumber", position);
                     mMainActivity.startActivity(intent);
                     mMainActivity.overridePendingTransition(R.anim.rightin, R.anim.notmove);
                 }

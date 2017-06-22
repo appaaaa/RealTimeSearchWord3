@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.TimerTask;
 
 public class DetailWeb extends AppCompatActivity {
-    // change
+
     WebView mWebView;
     WebSettings mWebSettings;
 
@@ -73,11 +73,10 @@ public class DetailWeb extends AppCompatActivity {
             public void onClick(View v) {
                 Integer a = word1.getText().toString().indexOf(".");
                 String word = word1.getText().toString().substring(a+2, word1.getText().toString().length());
-                //mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
-                mURL = mData.get(currentNum).getNewsURL2();
+                mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
                 openWeb(mURL);
-//                String titleText = "\"" + word + "\"" + " 관련 최신기사";
-//                mTitleTextView.setText(titleText);
+                String titleText = "\"" + word + "\"" + " 관련 최신기사";
+                mTitleTextView.setText(titleText);
             }
         });
         word2.setOnClickListener(new View.OnClickListener(){
@@ -85,11 +84,10 @@ public class DetailWeb extends AppCompatActivity {
             public void onClick(View v) {
                 Integer a = word2.getText().toString().indexOf(".");
                 String word = word2.getText().toString().substring(a+2, word2.getText().toString().length());
-                //mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
-                mURL = mData.get(currentNum).getNewsURL2();
+                mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
                 openWeb(mURL);
-//                String titleText = "\"" + word + "\"" + " 관련 최신기사";
-//                mTitleTextView.setText(titleText);
+                String titleText = "\"" + word + "\"" + " 관련 최신기사";
+                mTitleTextView.setText(titleText);
             }
         });
         word3.setOnClickListener(new View.OnClickListener(){
@@ -97,11 +95,10 @@ public class DetailWeb extends AppCompatActivity {
             public void onClick(View v) {
                 Integer a = word3.getText().toString().indexOf(".");
                 String word = word3.getText().toString().substring(a+2, word3.getText().toString().length());
-                //mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
-                mURL = mData.get(currentNum).getNewsURL2();
+                mURL = "https://search.naver.com/search.naver?where=nexearch&query=" + word + "&sm=top_lve&ie=utf8";
                 openWeb(mURL);
-//                String titleText = "\"" + word + "\"" + " 관련 최신기사";
-//                mTitleTextView.setText(titleText);
+                String titleText = "\"" + word + "\"" + " 관련 최신기사";
+                mTitleTextView.setText(titleText);
             }
         });
 
@@ -144,13 +141,8 @@ public class DetailWeb extends AppCompatActivity {
             Log.v("currentNum", currentNum.toString());
             String titleText = "\"" + mData.get(currentNum).getWord() + "\"" + " 관련 최신기사";
             mTitleTextView.setText(titleText);
-
-            word1.setText(mData.get(currentNum).getNewsTitle2());
-            word2.setText(mData.get(currentNum).getNewsTitle3());
-            word3.setText(mData.get(currentNum).getNewsTitle4());
         }
 
-        /*
         if(currentNum>=1 && currentNum <=18) {
             n1 = currentNum;
             n2 = currentNum + 1;
@@ -187,7 +179,7 @@ public class DetailWeb extends AppCompatActivity {
             word1.setText(w1);
             word2.setText(w2);
             word3.setText(w3);
-        }*/
+        }
 
         if(mIntent.getStringExtra("newsURL") != null) {
 
@@ -217,18 +209,17 @@ public class DetailWeb extends AppCompatActivity {
             }
         });
 
-
+        startSubThread();
 
 
     }
-    /* 3초마다 롤링되는 코든
+
     public void startSubThread(){
         MyRunnable myRunnable = new MyRunnable();
         Thread myThread = new Thread(myRunnable);
         myThread.setDaemon(true);
         myThread.start();
     }
-
 
     android.os.Handler mainHandler = new android.os.Handler()
     {
@@ -305,7 +296,7 @@ public class DetailWeb extends AppCompatActivity {
                 }
             }
         }
-    }*/
+    }
 
     public void openWeb(String murl){
         mWebView = (WebView)findViewById(R.id.webview);
