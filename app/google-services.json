@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:682067088393:android:b07c6f98c9912950",
         "android_client_info": {
-          "package_name": "com.secondtype.realtimesearchword3"
+          "package_name": "com.secondtype.realtimesearchword4"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "682067088393-nbtqqa7vmbc9quu67be1ukvp6n3m2tc5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.secondtype.realtimesearchword3",
+            "package_name": "com.secondtype.realtimesearchword4",
             "certificate_hash": "21d6c2e10b6b8f2709fcfe237564bb5c02b4c027"
           }
         },
