@@ -1,21 +1,14 @@
-package com.secondtype.realtimesearchword3;
+package com.secondtype.realtimesearchword4;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,14 +20,13 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import static com.secondtype.realtimesearchword3.MainActivity.switchs;
-
 /**
  * Created by appaaaa on 2017-02-17.
  */
 
 public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.ViewHolder>{
     private ArrayList<SearchWord> mDataset;
+    int pos;
     Context mContext;
     MainActivity mMainActivity;
 
@@ -50,7 +42,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView numberTextView;
         public TextView wordTextView;
-//        public ImageView arrowImageView;
+        //        public ImageView arrowImageView;
 //        public TextView rankingTextView;
         public TextView newsTitleTextView;
         public ImageView newsImageImageView;
@@ -69,11 +61,6 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
         public Button moreReplyButton;
 
-
-
-
-
-
         public ViewHolder(View view){
             super(view);
             numberTextView = (TextView)view.findViewById(R.id.textview_number);
@@ -83,7 +70,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             newsTitleTextView = (TextView)view.findViewById(R.id.textview_newstitle);
             newsImageImageView = (ImageView)view.findViewById(R.id.imageview_news);
 //            newRankingTextView = (TextView)view.findViewById(R.id.textview_new);
-            mCardView = (CardView)view.findViewById(R.id.cardview);
+            mCardView = (CardView)view.findViewById(R.id.cardview2);
             replyLinearLayout = (LinearLayout) view.findViewById(R.id.linearlayout_reply);
             contentsLinearLayout = (LinearLayout)view.findViewById(R.id.linearlayout_contents);
             replyName = (TextView)view.findViewById(R.id.textview_reply_name);
@@ -93,9 +80,6 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             replyCount2 = (TextView)view.findViewById(R.id.textview_reply_count2);
             replyCount3 = (TextView)view.findViewById(R.id.textview_reply_count3);
             moreReplyButton = (Button)view.findViewById(R.id.button_more_reply);
-
-
-
         }
     }
 
@@ -108,16 +92,14 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
-
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view2, parent, false);
         ViewHolder vh = new ViewHolder(v);
-
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final int pos = position;
+        pos = position;
         holder.numberTextView.setText(mDataset.get(position).getNumber());
         holder.wordTextView.setText(mDataset.get(position).getWord());
 
@@ -140,7 +122,6 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
         final String s = mDataset.get(position).getNewsTitle();
 
-
         if(!mDataset.get(position).getReplyArrayList().isEmpty()){
             holder.replyLinearLayout.setVisibility(View.VISIBLE);
             Log.v("replybug1", mDataset.get(position).getWord());
@@ -160,7 +141,7 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
             @Override
             public void onClick(View view) {
 
-                if(s != null && switchs) {
+                if(s != null && MainActivity.switchs) {
                     Intent intent = new Intent(mMainActivity, DetailWeb.class);
                     intent.putExtra("newsURL", mDataset.get(position).getNewsURL());
                     intent.putExtra("mDataset", mDataset);
@@ -169,16 +150,12 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                     mMainActivity.startActivity(intent);
                     mMainActivity.overridePendingTransition(R.anim.rightin, R.anim.notmove);
                 }
-                else if(switchs == false){
+                else if(MainActivity.switchs == false){
                     Toast toast = Toast.makeText(mMainActivity, "데이터로딩중.. 데이터 로딩이 전부 끝나면 이동가능합니다.", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
         });
-
-
-
-
 
         holder.replyLinearLayout.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -186,6 +163,8 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                 view = mMainActivity.getLayoutInflater().inflate(R.layout.reply_listview, null);
                 replyListView = (ListView)view.findViewById(R.id.listview_reply);
                 replyListViewAdapter = new ListViewAdapter(mMainActivity, mDataset.get(position).getReplyArrayList());
+                Log.v("position", "position : " + Integer.toString(position));
+                Log.v("position", "pos : " + Integer.toString(pos));
                 ///////////////////+ reply back Button ////////////////////////
                 replyBack = (Button)view.findViewById(R.id.button_back_reply);
                 ///////////////////////////////////////////////////////////////
@@ -206,8 +185,6 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                     }
                 });
                 ///////////////////////////////////////////////////////////
-
-
             }
         });
         holder.moreReplyButton.setOnClickListener(new View.OnClickListener(){
@@ -236,15 +213,9 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
                     }
                 });
                 ///////////////////////////////////////////////////////////
-
             }
         });
-
-
-
-
     }
-
 
     @Override
     public int getItemCount() {
