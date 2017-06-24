@@ -1,4 +1,4 @@
-package com.secondtype.realtimesearchword4;
+package com.secondtype.realtimesearchword3;
 
 import android.app.Activity;
 import android.content.Context;

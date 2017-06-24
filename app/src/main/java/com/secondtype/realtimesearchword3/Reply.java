@@ -1,4 +1,4 @@
-package com.secondtype.realtimesearchword4;
+package com.secondtype.realtimesearchword3;
 
 import java.io.Serializable;
 
