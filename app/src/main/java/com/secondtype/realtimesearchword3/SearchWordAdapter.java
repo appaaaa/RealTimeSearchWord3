@@ -138,7 +138,6 @@ public class SearchWordAdapter extends RecyclerView.Adapter<SearchWordAdapter.Vi
 
                 .into(holder.newsImageImageView);
 
-        Log.v("test data", mDataset.get(position).getNewsTitle());
         final String s = mDataset.get(position).getNewsTitle();
 
 
